@@ -28,7 +28,7 @@ const DashListContent = () => {
         if(snapshot){
             setTotalRecords(snapshot.data().count.current);
             console.log(snapshot.data().count/onetime.current)
-            setTotalPages(snapshot.data().count/onetime.current);
+            setTotalPages(Math.ceil(snapshot.data().count/onetime.current));
             const q = query(collection(db, 'Company'), orderBy('title'), limit(10))
             onSnapshot(q, (querySnapshot) => {
               setItems(querySnapshot.docs.map(doc => ({
@@ -36,6 +36,7 @@ const DashListContent = () => {
                 data: doc.data()
               })))
               setLastvisible(querySnapshot.docs[querySnapshot.docs.length-1])
+              
             })
           
             setStart(5);
@@ -58,7 +59,8 @@ const DashListContent = () => {
             id: doc.id,
             data: doc.data()
           })))
-          setLastvisible(querySnapshot.docs[querySnapshot.docs.length-1])
+          setLastvisible(querySnapshot.docs[querySnapshot.docs.length-1]);
+          setCurrentPage(prev=> prev + 1);
         })
 
     }
@@ -81,8 +83,9 @@ const DashListContent = () => {
         <ItemList list={items} setItems={setItems} />
         </div>
            <div className="flex flex-row justify-center w-screen">
-              {totalPages> 1 ? 
-             <Button onClick={handlePageChange} >Show Next</Button>: null
+            {console.log(totalPages, currentPage)}
+              {totalPages > 1 && totalPages !== currentPage && 
+             <Button onClick={handlePageChange} className="bg-blue-600 rounded-md p-2 text-white" >Show Next</Button>
 
   }
 </div>
