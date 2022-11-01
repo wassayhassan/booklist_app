@@ -11,7 +11,7 @@ function Item({item, id, setItems}){
                     <img src={item.logo || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png"} alt="img" className="h-full" />
                 </div>
                     <div className="flex flex-col justify-between mx-2 items-center">
-                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    <h5 className="text-2xl font-bold tracking-tight text-black">
                     {item.title}
                     </h5>
                      <div className="flex flex-row justify-between items-center">
