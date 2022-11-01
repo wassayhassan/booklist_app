@@ -10,6 +10,7 @@ import ItemList from './itemslist.component';
 import {collection, addDoc, Timestamp} from 'firebase/firestore';
 import { db } from '../firebase/db';
 import CategoryModal from './category.compoonent';
+import {BsCloudUploadFill} from 'react-icons/bs';
 
 const style = {
   position: 'absolute',
@@ -80,6 +81,8 @@ export default function ItemAddModal({setItems, items}) {
     date: '',
     app: '',
     logo: '',
+    twitter: '',
+    website: '',
     description: '',
     founder: '',
     instagram: '',
@@ -124,6 +127,8 @@ var dateTime = date+' '+time;
               description: '',
               founder: '',
               instagram: '',
+              twitter: '',
+              website: '',
               facebook: '',
               linkedin: '',
               privacy: 'false',
@@ -132,7 +137,7 @@ var dateTime = date+' '+time;
             })
         })
       } catch (err) {
-        setLoading(true);
+        setLoading(false);
         alert(err);
       }
  }
@@ -145,7 +150,7 @@ var dateTime = date+' '+time;
 
   return (
     <div>
-      <button onClick={handleOpen} className="font-medium text-blue-600 hover:underline dark:text-blue-500">Add Item</button>
+      <button onClick={handleOpen} className="font-medium text-blue-600 hover:underline dark:text-blue-500"><BsCloudUploadFill size="1.5em" color="black" /></button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -190,6 +195,14 @@ var dateTime = date+' '+time;
                 <input type="text"  className='w-56 h-10 rounded-md border-[1px]' name="instagram" value={itemDetails.instagram} onChange={handleChange}/>
             </div>
             <div className='field-con flex flex-col  m-1 p-1'>
+                <label htmlFor="">Item Twitter</label>
+                <input type="text"  className='w-56 h-10 rounded-md border-[1px]' name="twitter" value={itemDetails.twitter} onChange={handleChange}/>
+            </div>
+            <div className='field-con flex flex-col  m-1 p-1'>
+                <label htmlFor="">Website Link</label>
+                <input type="text"  className='w-56 h-10 rounded-md  border-[1px]' name='website' value={itemDetails.website} onChange={handleChange} />
+            </div>
+            <div className='field-con flex flex-col  m-1 p-1'>
                 <label htmlFor="">Item FaceBook</label>
                 <input type="text"  className='w-56 h-10 rounded-md border-[1px]' name='facebook' value={itemDetails.facebook} onChange={handleChange} />
             </div>
@@ -218,9 +231,8 @@ var dateTime = date+' '+time;
                 <label htmlFor="" className='m-1'>Privacy</label>
                 <div className='m-1 p-1'>
                    <AntSwitch checked={privacy} inputProps={{ 'aria-label': 'ant design' }} name="verifiedSwitch" onChange={()=> {
+                    setItemDetails({...itemDetails, privacy: String(!privacy)});
                     setPrivacy(prev => (!prev));
-                    setItemDetails({...itemDetails, 'privacy': String(privacy)});
-                    
                    }} />
                 </div>
               

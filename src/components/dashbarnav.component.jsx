@@ -1,33 +1,36 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { NavLink } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import {  HiTemplate} from "react-icons/hi"
-import {IoIosLogOut} from 'react-icons/io';
 import { logout } from "../slices/authSlice";
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
+import {Button} from 'flowbite-react';
 function DashNav(){
-    const { pathname } = useLocation();
+    
+    const {user} = useSelector(state=> state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    let activeClassName = "bg-blue-400 p-1 m-2 flex flex-row justify-center rounded-2xl";
-    let normalStyle = " p-2  m-2 flex flex-row justify-center rounded-lg hover:bg-blue-300";
     const handleLogout = () => {
         dispatch(logout());
     }
+    useEffect(() => {
+        if(user === "undefined" || user === null ||user === undefined || user === "null"){
+            navigate('/login');
+          }
+    }, [user])
+    
     return (
     <div className="navbar-container  h-screen m-2  sticky top-0 flex flex-col mt-14 "  >
-       <div className="navLinks-container bg-blue-200 rounded-md w-16">
+       <div className="navLinks-container w-32">
             <ul>
               
-                    <NavLink to="/" className={({ isActive }) =>
-         isActive ? activeClassName : normalStyle
-        }>
-                        <HiTemplate size="2.5em" color={pathname === '/dashboard/list'? 'blue':'black'}/>
-                    </NavLink>
-                    <div className="flex flex-row justify-center items-center">
-                    <IoIosLogOut className="cursor-pointer" size="1.6em" onClick={handleLogout} />
+                    <NavLink to="/">
+                        <div className="bg-blue-800 m-1 p-1  rounded-md flex flex-row justify-center">
+                        <Button className="bg-blue-800 border-none">Company</Button>
+                        </div>  
+                    </NavLink >
+                    <div className="m-1 p-1 flex flex-row justify-center">
+                    <button className=" text-black cursor-pointer border-[1px] border-black rounded-md w-28 hover:bg-black hover:text-white "  onClick={handleLogout} >Logout</button>
 
                     </div>
      

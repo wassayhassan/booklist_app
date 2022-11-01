@@ -75,25 +75,25 @@ export default function ItemEditModal({item, id}) {
   const [itemDetails, setItemDetails] = useState({
     title: item.title,
     email: item.email,
-    date: item.date,
     app: item.app,
     description: item.description,
     founder: item.founder,
     instagram: item.instagram,
+    twitter: item.twitter,
+    website: item.website,
     facebook: item.facebook,
     linkedin: item.linkedin,
     privacy: item.privacy,
     status: item.status,
     search: item.search,
     category: item.category,
-    address: item.address
+    address: item.address,
   })
   const [saveLoading, setSaveLoading] = useState(false);
   const [deleteLoading,setDeleteLoading]= useState(false);
 
 const submitChanges = async() => {
     setSaveLoading(true);
-    
     const taskDocRef = doc(db, 'Company', id)
   try{
     await updateDoc(taskDocRef, itemDetails);
@@ -111,6 +111,7 @@ const deleteItem = async() => {
       });
       setDeleteLoading(false);
     } catch (err) {
+      setDeleteLoading(false);
       alert(err);
     }
 }
@@ -123,7 +124,7 @@ const deleteItem = async() => {
 
   return (
     <div>
-      <button onClick={handleOpen} className="font-medium text-blue-600 hover:underline dark:text-blue-500">Edit</button>
+      <button onClick={handleOpen} className="font-medium text-green-600 hover:underline dark:text-blue-500">Edit Info</button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -148,12 +149,12 @@ const deleteItem = async() => {
                 <input type="text"  className='w-56 h-10 rounded-md  border-[1px]' name="email" value={itemDetails.email} onChange={handleChange} />
             </div>
             <div className='field-con flex flex-col  m-1 p-1'>
-                <label htmlFor="">Date</label>
-                <input type="text"  className='w-56 h-10 rounded-md border-[1px] ' name="date" value={itemDetails.date} onChange={handleChange} />
-            </div>
-            <div className='field-con flex flex-col  m-1 p-1'>
                 <label htmlFor="">App Link</label>
                 <input type="text"  className='w-56 h-10 rounded-md  border-[1px]' name='app' value={itemDetails.app} onChange={handleChange} />
+            </div>
+            <div className='field-con flex flex-col  m-1 p-1'>
+                <label htmlFor="">Website Link</label>
+                <input type="text"  className='w-56 h-10 rounded-md  border-[1px]' name='website' value={itemDetails.website} onChange={handleChange} />
             </div>
             <div className='field-con flex flex-col  m-1 p-1'>
                 <label htmlFor="">Description</label>
@@ -167,6 +168,10 @@ const deleteItem = async() => {
             <div className='field-con flex flex-col  m-1 p-1'>
                 <label htmlFor="">Item Instagram</label>
                 <input type="text"  className='w-56 h-10 rounded-md  border-[1px]' name="instagram" value={itemDetails.instagram} onChange={handleChange}/>
+            </div>
+            <div className='field-con flex flex-col  m-1 p-1'>
+                <label htmlFor="">Item Twitter</label>
+                <input type="text"  className='w-56 h-10 rounded-md border-[1px]' name="twitter" value={itemDetails.twitter} onChange={handleChange}/>
             </div>
             <div className='field-con flex flex-col  m-1 p-1'>
                 <label htmlFor="">Item FaceBook</label>
@@ -198,20 +203,23 @@ const deleteItem = async() => {
             <div className='actions-container  m-1 p-1 flex flex-row'>
                 <label htmlFor="" className='m-1'>Privacy</label>
                 <div className='m-1 p-1'>
-                   <AntSwitch checked={privacy} inputProps={{ 'aria-label': 'ant design' }} name="verifiedSwitch" onChange={()=> {
-                    setPrivacy(prev => (!prev))
+                  {console.log(privacy)}
+                   <AntSwitch checked={privacy} inputProps={{ 'aria-label': 'ant design' }} name="privacy" onChange={()=> {
+                    
+                    setItemDetails({...itemDetails, privacy: String(!privacy)});
+                    setPrivacy(prev => (!prev));
                    }} />
                 </div>
               
             </div>
             <div className='flex flex-row justify-end'>
-                <Button onClick={submitChanges} color="success" className='bg-blue-700 text-white p-1'>
+                <Button onClick={submitChanges}  className=' p-2'>
                  {saveLoading? <Spinner aria-label="Spinner button example" />: '' } 
                   <span className="pl-3">
                     {saveLoading? 'Saving...': 'Save'}
                   </span>
                 </Button>
-                <Button onClick={deleteItem} color="failure" className='bg-red-700 text-white'>
+                <Button onClick={deleteItem} color="failure" className='p-2'>
                  {deleteLoading? <Spinner aria-label="Spinner button example" />: '' } 
                   <span className="pl-3">
                   {deleteLoading? 'Deleting...': 'Delete'}

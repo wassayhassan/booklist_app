@@ -5,9 +5,12 @@ import EditItem from "./editmodal.component";
 
 function Item({item, id, setItems}){
     return (
-        <div className="h-65 w-56 m-1 p-1">
-            <Card imgSrc={item.logo}>
-                    <div className="flex flex-row justify-between mx-2">
+        <div className="h-64 w-64 m-1 p-2 flex flex-col border-gray-100 border-[1px] rounded-md shadow-md">
+            
+                <div className="h-2/3 rounded-full flex flex-row justify-center items-center">
+                    <img src={item.logo || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png"} alt="img" className="h-full" />
+                </div>
+                    <div className="flex flex-col justify-between mx-2 items-center">
                     <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {item.title}
                     </h5>
@@ -16,11 +19,7 @@ function Item({item, id, setItems}){
                      </div>
                     </div>
 
-                    <p className="font-normal text-gray-700 dark:text-gray-400">
-                    {item.address}
-                    </p>
-
-                </Card>
+                
 
         </div>
               
