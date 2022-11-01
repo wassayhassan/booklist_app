@@ -26,7 +26,7 @@ function DashNav(){
               
                     <NavLink to="/">
                         <div className="bg-blue-800 m-1 p-1  rounded-md flex flex-row justify-center">
-                        <Button className="bg-blue-800 border-none">Company</Button>
+                        <button className="bg-blue-800 border-none text-white">Company</button>
                         </div>  
                     </NavLink >
                     <div className="m-1 p-1 flex flex-row justify-center">
