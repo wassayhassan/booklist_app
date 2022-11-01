@@ -1,35 +1,33 @@
 import React from "react";
 import {useState, useEffect, useRef} from 'react'
-import {collection, query, onSnapshot, getCountFromServer, startAfter, limit, getDocs, orderBy, endBefore} from "firebase/firestore"
+import {collection, query, onSnapshot, getCountFromServer, startAfter, limit, orderBy, endBefore} from "firebase/firestore"
 import { db } from "../firebase/db";
 import ItemList from "./itemslist.component";
-import Pagination from '@mui/material/Pagination';
 import ItemAddModal from "./additem.component";
-import { getListItemAvatarUtilityClass } from "@mui/material";
 import { Button } from "antd";
 import Divider from '@mui/material/Divider';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
 const DashListContent = () => {
     const [items, setItems] = useState([]);
-    const [totalRecords, setTotalRecords] = useState(0);
+    // const [totalRecords, setTotalRecords] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [lastvisible, setLastvisible] = useState({});
     const [firstVisible, setFirstVisible] = useState({});
-    const [start, setStart] = useState(1);
+    const [dataLoading, setDataLoading] = useState(false);
+    // const [start, setStart] = useState(1);
     const onetime = useRef(10);
     
     useEffect(()=> {
-
+      setDataLoading(true);
       async function getRecords(){
         const coll = collection(db, "Company");
         const snapshot = await getCountFromServer(coll);
         if(snapshot){
-            setTotalRecords(snapshot.data().count.current);
-            console.log(snapshot.data().count/onetime.current)
+            // setTotalRecords(snapshot.data().count.current);
             setTotalPages(Math.ceil(snapshot.data().count/onetime.current));
             const q = query(collection(db, 'Company'), orderBy('title'), limit(10))
             onSnapshot(q, (querySnapshot) => {
@@ -41,20 +39,24 @@ const DashListContent = () => {
               
             })
           
-            setStart(5);
+            // setStart(5);
       }     
    }
-   getRecords().then().catch((err)=> {
-    console.log(err);
+   
+   getRecords().then(()=> {
+    setDataLoading(false);
+   }).catch((err)=> {
+    setDataLoading(false);
+    alert(err);
    });
 
-
+   
 
     }, [])
 
 
     const handlePageChange = async() => {
-      
+      setDataLoading(true);
         const q = query(collection(db, 'Company'),orderBy('title'),startAfter(lastvisible),limit(10))
         onSnapshot(q, (querySnapshot) => {
           setItems(querySnapshot.docs.map(doc => ({
@@ -65,9 +67,10 @@ const DashListContent = () => {
           setFirstVisible(querySnapshot.docs[0]);
           setCurrentPage(prev=> prev + 1);
         })
-
+        setDataLoading(false);
     }
     const goBackHandle = async()=> {
+      setDataLoading(true);
       const q = query(collection(db, 'Company'),orderBy('title'),endBefore(firstVisible),limit(10))
       onSnapshot(q, (querySnapshot) => {
         setItems(querySnapshot.docs.map(doc => ({
@@ -78,6 +81,7 @@ const DashListContent = () => {
         setFirstVisible(querySnapshot.docs[0]);
         setCurrentPage(prev=> prev - 1);
       })
+      setDataLoading(false);
     }
     
     
@@ -94,13 +98,13 @@ const DashListContent = () => {
         <div>
 
         </div>
-        {console.log(items)}
+        
         <div className="m-1">
-        <ItemList list={items} setItems={setItems} />
+        {dataLoading? <CircularProgress size="3em" className="mt-10" />:  <ItemList list={items} setItems={setItems} />}
+       
         </div>
            <div className="flex flex-row justify-center w-screen">
             {totalPages > 1 && currentPage !== 1 && <Button onClick={goBackHandle} className="bg-blue-600 rounded-md p-2 text-white m-2" >Show Prev</Button>}
-            {console.log(totalPages, currentPage)}
               {totalPages > 1 && totalPages !== currentPage && 
              <Button onClick={handlePageChange} className="bg-blue-600 rounded-md p-2 text-white m-2" >Show Next</Button>
 

@@ -5,9 +5,8 @@ import Modal from '@mui/material/Modal';
 import Switch from '@mui/material/Switch';
 import { useState } from 'react';
 import { Button, Spinner } from 'flowbite-react';
-import axios from 'axios';
-import ItemList from './itemslist.component';
-import {collection, addDoc, Timestamp} from 'firebase/firestore';
+import {MdClose} from 'react-icons/md';
+import {collection, addDoc} from 'firebase/firestore';
 import { db } from '../firebase/db';
 import CategoryModal from './category.compoonent';
 import {BsCloudUploadFill} from 'react-icons/bs';
@@ -23,7 +22,8 @@ const style = {
   borderRadius: '1.2em',
   border: '1px solid #000',
   boxShadow: 24,
-  overflow: 'scroll',
+  overflowY: 'scroll',
+  overflowX: 'hidden',
   p: 4,
 };
 const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -72,7 +72,6 @@ export default function ItemAddModal({setItems, items}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [approved, setApproved] = useState(false);
   const [privacy, setPrivacy] = useState(false);
   const [itemDetails, setItemDetails] = useState({
     title: '',
@@ -158,8 +157,9 @@ var dateTime = date+' '+time;
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-         <div className='heading-container'>
+         <div className='heading-container flex flex-row justify-between'>
             <p className='font-bold text-2xl'>Item Details</p>
+            <MdClose size="1.5em" onClick={handleClose} className='rounded-full hover:bg-black hover:text-white cursor-pointer' />
          </div>
          <div className='userinfo-container flex flex-row flex-wrap'>
             <div className='field-con flex flex-col m-1 p-1'>
@@ -237,15 +237,12 @@ var dateTime = date+' '+time;
                 </div>
               
             </div>
-            <div className='flex flex-row flex-end w-full'>
+            <div className='flex flex-row justify-end w-full'>
                 <Button onClick={submitChanges} className="p-2">
                  {loading? <Spinner aria-label="Spinner button example" />: '' } 
                   <span className="pl-3">
                     {loading? 'Saving...': 'Save'}
                   </span>
-                </Button>
-                <Button onClick={handleClose} className="bg-red-700 text-white p-2">
-                    Close
                 </Button>
                 </div>
          </div>

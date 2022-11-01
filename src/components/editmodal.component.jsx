@@ -5,11 +5,10 @@ import Modal from '@mui/material/Modal';
 import Switch from '@mui/material/Switch';
 import { useState } from 'react';
 import { Button, Spinner } from 'flowbite-react';
-import axios from 'axios';
-import ItemList from './itemslist.component';
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from '../firebase/db';
 import CategoryModal from './category.compoonent';
+import {MdClose} from 'react-icons/md';
 
 const style = {
   position: 'absolute',
@@ -107,7 +106,7 @@ const deleteItem = async() => {
     const taskDocRef = doc(db, 'Company', id)
     try{
       await deleteDoc(taskDocRef).then(response=> {
-        console.log(response);
+        
       });
       setDeleteLoading(false);
     } catch (err) {
@@ -132,8 +131,9 @@ const deleteItem = async() => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-         <div className='heading-container'>
+         <div className='heading-container flex flex-row justify-between'>
             <p className='font-bold text-2xl'>Item Details</p>
+            <MdClose size="1.5em" onClick={handleClose} className='rounded-full hover:bg-black hover:text-white cursor-pointer' />
          </div>
          <div className='userinfo-container flex flex-row flex-wrap'>
             <div className='field-con flex flex-col m-1 p-1'>
@@ -203,7 +203,6 @@ const deleteItem = async() => {
             <div className='actions-container  m-1 p-1 flex flex-row'>
                 <label htmlFor="" className='m-1'>Privacy</label>
                 <div className='m-1 p-1'>
-                  {console.log(privacy)}
                    <AntSwitch checked={privacy} inputProps={{ 'aria-label': 'ant design' }} name="privacy" onChange={()=> {
                     
                     setItemDetails({...itemDetails, privacy: String(!privacy)});
@@ -216,13 +215,13 @@ const deleteItem = async() => {
                 <Button onClick={submitChanges}  className=' p-2'>
                  {saveLoading? <Spinner aria-label="Spinner button example" />: '' } 
                   <span className="pl-3">
-                    {saveLoading? 'Saving...': 'Save'}
+                    {saveLoading? 'Updating': 'Update'}
                   </span>
                 </Button>
-                <Button onClick={deleteItem} color="failure" className='p-2'>
+                <Button onClick={deleteItem} color="failure" className='p-2 mx-2'>
                  {deleteLoading? <Spinner aria-label="Spinner button example" />: '' } 
                   <span className="pl-3">
-                  {deleteLoading? 'Deleting...': 'Delete'}
+                  {deleteLoading? 'Deleting': 'Delete'}
 
                   </span>
                 </Button>
