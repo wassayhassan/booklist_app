@@ -19,8 +19,8 @@ function DashNav(){
     }, [user])
     
     return (
-    <div className="navbar-container  h-screen m-2  sticky top-0 flex flex-col mt-14 "  >
-       <div className="navLinks-container w-32">
+    <div className="navbar-container  h-screen m-2  sticky top-0 flex flex-col mt-14 w-[11%]"  >
+       <div className="navLinks-container w-full">
             <ul>
               
                     <NavLink to="/">
@@ -28,6 +28,10 @@ function DashNav(){
                         <button className="bg-blue-800 border-none text-white">Company</button>
                         </div>  
                     </NavLink >
+                    <NavLink className="m-1 p-1 flex flex-row justify-center" to="/add">
+                    <button className=" text-black cursor-pointer border-[1px] border-black rounded-md w-28 hover:bg-black hover:text-white " >Add New</button>
+
+                    </NavLink>
                     <div className="m-1 p-1 flex flex-row justify-center">
                     <button className=" text-black cursor-pointer border-[1px] border-black rounded-md w-28 hover:bg-black hover:text-white "  onClick={handleLogout} >Logout</button>
 

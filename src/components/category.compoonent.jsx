@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import * as React from 'react';
 import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 
 
@@ -62,17 +62,18 @@ export default function CategoryModal({itemDetails, setItemDetails}) {
         
         <div className='p-1 m-1'>
            <div className='m-1'>
-             <input type="checkbox" name="company1" checked={itemDetails.category.includes("company1")? true: false} value="company1" className='p-1' onChange={handleChange} />
-                <label >Company 1</label>
+             <input type="checkbox" name="company1" id='company1' checked={itemDetails.category.includes("company1")? true: false} value="company1" className='p-1' onChange={handleChange} />
+                <label className='font-medium m-1 cursor-pointer' htmlFor='company1' >Company 1</label>
             </div>
-            
+            <Divider light />
             <div className='m-1'>
-             <input type="checkbox" name="company2" value="company2" onChange={handleChange} checked={itemDetails.category.includes("company2")? true: false} />
-                <label >Company 2</label>
+             <input type="checkbox" name="company2" id='company2' value="company2" onChange={handleChange} checked={itemDetails.category.includes("company2")? true: false} />
+                <label className='font-medium m-1 cursor-pointer' htmlFor='company2'>Company 2</label>
             </div>
+            <Divider light />
             <div className='m-1'>
-             <input type="checkbox" name="company3" value="company3" onChange={handleChange} checked={itemDetails.category.includes("company3")? true: false} />
-                <label >Company 3</label>
+             <input type="checkbox" name="company3" id='company3'  value="company3" onChange={handleChange} checked={itemDetails.category.includes("company3")? true: false} />
+                <label className='font-medium m-1 cursor-pointer' htmlFor='company3'>Company 3</label>
             </div>
                
               </div>

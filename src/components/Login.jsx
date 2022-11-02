@@ -34,7 +34,6 @@ const Login = () => {
         signInWithEmailAndPassword(auth, credentials.email, credentials.password)
         .then((userCredential) => {
             
-            console.log(userCredential.user);
             const user = userCredential.user;
             
             dispatch(rlogin(userCredential.user.email))
@@ -67,12 +66,12 @@ const Login = () => {
       placeholder="Email Address"
       required={true}
       onChange={handleChange}
-      className='w-64 h-10 outline-none border-gray-200 border-2 rounded-md'
+      className='w-64 h-10 outline-none border-gray-200 border-2 rounded-md p-1'
     />
   </div>
   <div>
     <input
-    className='w-64 h-10 outline-none border-gray-200 border-2 rounded-md'
+    className='w-64 h-10 outline-none border-gray-200 border-2 rounded-md p-1'
       id="password1"
       type="password"
       name="password"

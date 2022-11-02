@@ -1,6 +1,5 @@
 import React from "react";
-import {Card} from 'flowbite-react';
-import EditItem from "./editmodal.component";
+import { Link } from "react-router-dom";
 
 
 function Item({item, id, setItems}){
@@ -15,7 +14,9 @@ function Item({item, id, setItems}){
                     {item.title}
                     </h5>
                      <div className="flex flex-row justify-between items-center">
-                        <EditItem item={item} id={id} setItems={setItems} />
+                        <Link to={`/company/${id}`}  item={item} id={id} >
+                          <button className="font-medium text-green-600 hover:underline dark:text-blue-500">Edit Info</button>
+                        </Link>
                      </div>
                     </div>
 
